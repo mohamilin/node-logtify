@@ -1,3 +1,24 @@
+const fs = require('fs');
+const { processData } = require("./lib/process");
+const filename = "../logtify.txt";
+
+const logReadFile = (req, res, next) => {
+    fs.readFile(filename, 'utf8', (err, data) => {
+        if (err) {
+          console.error('Error reading file:', err);
+          next(err); // Pass error to the error handling middleware
+        } else {
+          req.fileData = data; // Attach file data to the request object
+          console.log(data, 'data1')
+        }
+      });
+      
+    next()
+};
+
+module.exports = logReadFile
+
+
 const NodeLogtify = function (request, response, next) {
   try {
     const requestStart = Date.now();
@@ -35,8 +56,8 @@ const NodeLogtify = function (request, response, next) {
         req: { route, baseUrl, originalUrl, query, params },
       } = response;
       const headers = response.getHeaders();
-      
-      console.log({
+
+      processData({
         query,
         params,
         nameController: route ? route.stack[0].name : null,
@@ -60,6 +81,31 @@ const NodeLogtify = function (request, response, next) {
           headers,
         },
       });
+
+      // console.log({
+      //   query,
+      //   params,
+      //   nameController: route ? route.stack[0].name : null,
+      //   device: request.headers["user-agent"],
+      //   ip: request.headers["x-forwarded-for"] || request.socket.remoteAddress,
+      //   remoteFamily,
+      //   processingTime: Date.now() - requestStart,
+      //   body: payloadBody
+      //     ? payloadBody
+      //     : body.toString()
+      //     ? JSON.parse(body.toString())
+      //     : null,
+      //   errorMessage,
+      //   method,
+      //   url,
+      //   baseUrl,
+      //   originalUrl,
+      //   response: {
+      //     statusCode,
+      //     statusMessage,
+      //     headers,
+      //   },
+      // });
     });
 
     next();
@@ -69,4 +115,4 @@ const NodeLogtify = function (request, response, next) {
   }
 };
 
-module.exports = { NodeLogtify };
+module.exports = { NodeLogtify, logReadFile };
