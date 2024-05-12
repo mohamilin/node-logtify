@@ -62,7 +62,6 @@ const NodeLogtify = function (request, response, next) {
       });
     });
 
-    // processLog(request, response);
     next();
   } catch (e) {
     console.log(e, "ERROR");
