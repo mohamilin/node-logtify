@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { processData } = require("./lib/process");
-const filename = "../logtify.txt";
+const filename = "../../logtify.txt";
 
 const logReadFile = (req, res, next) => {
     fs.readFile(filename, 'utf8', (err, data) => {
