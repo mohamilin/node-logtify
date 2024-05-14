@@ -25,7 +25,7 @@ const logReadFile = () => {
   }
 };
 
-const NodeLogtify = function (request, response, next) {
+const nodeLogtify = function (request, response, next) {
   try {
     const requestStart = Date.now();
 
@@ -87,31 +87,6 @@ const NodeLogtify = function (request, response, next) {
           headers,
         },
       });
-
-      // console.log({
-      //   query,
-      //   params,
-      //   nameController: route ? route.stack[0].name : null,
-      //   device: request.headers["user-agent"],
-      //   ip: request.headers["x-forwarded-for"] || request.socket.remoteAddress,
-      //   remoteFamily,
-      //   processingTime: Date.now() - requestStart,
-      //   body: payloadBody
-      //     ? payloadBody
-      //     : body.toString()
-      //     ? JSON.parse(body.toString())
-      //     : null,
-      //   errorMessage,
-      //   method,
-      //   url,
-      //   baseUrl,
-      //   originalUrl,
-      //   response: {
-      //     statusCode,
-      //     statusMessage,
-      //     headers,
-      //   },
-      // });
     });
 
     next();
@@ -121,4 +96,4 @@ const NodeLogtify = function (request, response, next) {
   }
 };
 
-module.exports = { NodeLogtify, logReadFile };
+module.exports = { nodeLogtify, logReadFile };
