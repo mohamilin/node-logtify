@@ -1,22 +1,29 @@
-const fs = require('fs');
+const fs = require("fs");
+const path = require("path");
+
+const logFilePath = path.join(__dirname, "./lib/app.log");
+
 const { processData } = require("./lib/process");
-const filename = "../../logtify.txt";
+const logReadFile = () => {
+  const data = fs.readFileSync(logFilePath, "utf8");
+  const lines = data.split("\n").filter((line) => line.trim() !== "");
 
-const logReadFile = (req, res, next) => {
-    fs.readFile(filename, 'utf8', (err, data) => {
-        if (err) {
-          console.error('Error reading file:', err);
-          next(err); // Pass error to the error handling middleware
-        } else {
-          req.fileData = data; // Attach file data to the request object
-          console.log(data, 'data1')
-        }
-      });
-      
-    next()
+  const lastLine = lines[lines.length - 1];
+
+  // Extract the JSON part of the last line
+  const jsonData = lastLine.match(/\{.*\}/);
+  if (jsonData) {
+    try {
+      // Parse the JSON data
+      const parsedData = JSON.parse(jsonData[0]);
+      return parsedData
+    } catch (e) {
+      console.error("Error parsing JSON:", e);
+    }
+  } else {
+    console.error("No JSON data found in the last line");
+  }
 };
-
-module.exports = logReadFile
 
 
 const NodeLogtify = function (request, response, next) {
