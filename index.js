@@ -11,20 +11,19 @@ const logReadFile = () => {
   const lastLine = lines[lines.length - 1];
 
   // Extract the JSON part of the last line
-  const jsonData = lastLine.match(/\{.*\}/);
-  if (jsonData) {
+  if (lines.length > 0) {
+    const jsonData = lastLine.match(/\{.*\}/);
     try {
       // Parse the JSON data
       const parsedData = JSON.parse(jsonData[0]);
-      return parsedData
+      return parsedData;
     } catch (e) {
       console.error("Error parsing JSON:", e);
     }
   } else {
-    console.error("No JSON data found in the last line");
+    return null
   }
 };
-
 
 const NodeLogtify = function (request, response, next) {
   try {
