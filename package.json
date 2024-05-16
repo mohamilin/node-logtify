@@ -1,6 +1,6 @@
 {
   "name": "node-logtify",
-  "version": "1.0.6",
+  "version": "1.0.6.1",
   "description": "",
   "main": "index.js",
   "git": "https://github.com/mohamilin/node-logtify",
