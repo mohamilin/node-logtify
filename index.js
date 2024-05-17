@@ -4,6 +4,13 @@ const path = require("path");
 const logFilePath = path.join(__dirname, "./lib/app.log");
 const { processData } = require("./lib/process");
 
+function validateFileType(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  const allowedExtensions = ['.txt', '.log'];
+  return allowedExtensions.includes(ext);
+}
+
+
 const readLog = () => {
   const data = fs.readFileSync(logFilePath, "utf8");
   const lines = data.split("\n").filter((line) => line.trim() !== "");
@@ -96,8 +103,25 @@ const nodeLogtify = function (request, response, next) {
   }
 };
 
-const nodeCronLogtify = (filePath, content = '') => {
+const nodeCronLogtify = (filePath, content = 'cron log') => {
   try {
+    if(!filePath) {
+      return console.log({
+        label: 'ERROR NODE-LOGTIFY',
+        message: 'Error creating log cron file',
+        detail: 'File path not found or null',
+      })
+    }
+
+    if(!validateFileType(filePath)) {4
+      return console.log({
+        label: 'ERROR NODE-LOGTIFY',
+        message: 'Error creating log cron file',
+        detail: 'Type file must .txt or .log',
+      })
+    }
+
+
     const timestamp = new Date().toISOString();
     const message = `${timestamp} - ${content}\n`;
 
