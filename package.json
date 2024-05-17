@@ -1,6 +1,6 @@
 {
   "name": "node-logtify",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "git": "https://github.com/mohamilin/node-logtify",
@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "node", "log", "logging", "trace"
+    "node", "log", "logging", "trace", "expressjs"
   ],
   "author": "amilinmoh99@gmail.com",
   "license": "ISC"
