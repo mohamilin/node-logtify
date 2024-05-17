@@ -2,9 +2,9 @@ const fs = require("fs");
 const path = require("path");
 
 const logFilePath = path.join(__dirname, "./lib/app.log");
-
 const { processData } = require("./lib/process");
-const logReadFile = () => {
+
+const readLog = () => {
   const data = fs.readFileSync(logFilePath, "utf8");
   const lines = data.split("\n").filter((line) => line.trim() !== "");
 
@@ -96,4 +96,36 @@ const nodeLogtify = function (request, response, next) {
   }
 };
 
-module.exports = { nodeLogtify, logReadFile };
+const nodeCronLogtify = (filePath, content = '') => {
+  try {
+    const timestamp = new Date().toISOString();
+    const message = `${timestamp} - ${content}\n`;
+
+    const projectRoot = process.cwd();
+    const projectPath = path.join(projectRoot, filePath);
+    if(!fs.existsSync(projectPath)) {
+    
+      fs.writeFileSync(projectPath, message);
+      console.log({
+        label: 'SUCCESS NODE-LOGTIFY',
+        message: 'Log file created' + projectPath,
+        detail: null,
+      })
+    } else {
+      fs.appendFileSync(projectPath, message, 'utf8');
+      console.log({
+        label: 'SUCCESS NODE-LOGTIFY',
+        message: 'Log file writed' + projectPath,
+        detail: null,
+      })
+    }
+  } catch (error) {
+    console.log({
+      label: 'ERROR NODE-LOGTIFY',
+      message : 'Error creating log cron file',
+      detail: error,
+    })
+  }
+}
+
+module.exports = { nodeLogtify, readLog, nodeCronLogtify };
