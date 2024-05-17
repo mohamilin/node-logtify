@@ -106,7 +106,7 @@ const nodeLogtify = function (request, response, next) {
 const nodeCronLogtify = (filePath, content = 'cron log') => {
   try {
     if(!filePath) {
-      return console.log({
+      return console.error({
         label: 'ERROR NODE-LOGTIFY',
         message: 'Error creating log cron file',
         detail: 'File path not found or null',
@@ -114,7 +114,7 @@ const nodeCronLogtify = (filePath, content = 'cron log') => {
     }
 
     if(!validateFileType(filePath)) {4
-      return console.log({
+      return console.error({
         label: 'ERROR NODE-LOGTIFY',
         message: 'Error creating log cron file',
         detail: 'Type file must .txt or .log',
@@ -144,7 +144,7 @@ const nodeCronLogtify = (filePath, content = 'cron log') => {
       })
     }
   } catch (error) {
-    console.log({
+    console.error({
       label: 'ERROR NODE-LOGTIFY',
       message : 'Error creating log cron file',
       detail: error,
