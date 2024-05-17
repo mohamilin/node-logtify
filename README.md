@@ -1,6 +1,7 @@
 # Node Logtify
 
-
+## disclaimer
+This project is under active `Development` and may be unstable or contain bugs. We do not recommend using it in a production environment. 
 
 ## Installation 
 This is a [Node.js](https://nodejs.org/en/) module available through the
