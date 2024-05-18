@@ -30,6 +30,8 @@ const nodeLogtify = function (request, response, next) {
     const requestStart = Date.now();
 
     let errorMessage = null;
+    let logMessage = null;
+
     let body = [];
     let payloadBody = request.body;
     request.on("data", (chunk) => {
@@ -48,7 +50,7 @@ const nodeLogtify = function (request, response, next) {
     const originalJson = response.json;
     response.json = function (results) {
       const ModifybodyJson = { ...results };
-      errorMessage = results;
+      logMessage = results;
       originalJson.call(this, ModifybodyJson);
     };
 
@@ -77,6 +79,7 @@ const nodeLogtify = function (request, response, next) {
           ? JSON.parse(body.toString())
           : null,
         errorMessage,
+        logMessage,
         method,
         url,
         baseUrl,
